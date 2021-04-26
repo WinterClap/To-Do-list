@@ -113,7 +113,7 @@ const Priority = styled.div`
     border: 2px solid white;
     position: relative;
     width: fit-content;
-    margin: auto;
+    margin: 5px auto 0 auto;
     border-radius: 20px;
     padding: 7px;
     font-size: 12px;
