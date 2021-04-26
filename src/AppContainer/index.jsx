@@ -1,13 +1,14 @@
 import { render } from "@testing-library/react";
 import React, { useState, Component } from "react";
 import styled from "styled-components";
-import { ToDoForm } from "../Components/ToDoForm/TodoForm";
+import { ToDoForm, Button} from "../Components/ToDoForm/TodoForm";
 import { todos } from "../todos.json";
+
 
 const Container = styled.div`
   background-color: #11001c;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
@@ -28,6 +29,8 @@ const TitleDiv = styled.div`
   border-radius: 20px;
   padding: 10px;
   font-weight: 600;
+  transition: all 200ms ease-in-out;
+  justify-self: flex-start;
 `;
 
 const AddButton = styled.button`
@@ -126,16 +129,32 @@ export class AppContainer extends Component {
     this.state = {
       todos
     };
+    this.AddTodo = this.AddTodo.bind(this)
+  }
+
+  AddTodo(todo) {
+    this.setState ({
+      todos: [...this.state.todos,todo]
+    })
+  }
+  removeTodo (index) {
+      if (window.confirm("Delete task?")){
+        this.setState ({
+          todos: this.state.todos.filter( (elem, i) => {
+            return i !== index
+          })
+        })
+      }
   }
   render() {
     const to_dos = this.state.todos.map((todo, i) => {
       return (
-          <TaskContainer>
-            <Header> {todo.title} 
+          <TaskContainer key = {i}>  {/** {todo.title.toString()} */}
+            <Header > {todo.title} 
                 <Priority> {todo.priority} </Priority>
             </Header>
-           
             <TaskBody> {todo.description} </TaskBody>
+            <Button onClick = {this.removeTodo.bind(this, i)}> Delete</Button>
           </TaskContainer>
         
       );
@@ -143,11 +162,11 @@ export class AppContainer extends Component {
     return (
       <Container>
         <NavBar>
-          <TitleDiv> Tasks {this.state.todos.length} </TitleDiv>
+          <TitleDiv> Tasks - { this.state.todos.length} </TitleDiv>
           <AddButton>Add task</AddButton>
         </NavBar>
         <SubContainer>
-        <ToDoForm></ToDoForm>
+        <ToDoForm onAddTodo={this.AddTodo}></ToDoForm>
           <TasksBox>
               { to_dos }
           </TasksBox>

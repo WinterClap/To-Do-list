@@ -40,10 +40,11 @@ const Input = styled.input`
         text-align: center;
     }
 `
-const Button = styled.button`
+export const Button = styled.button`
     width: 40%;
     font-size: 16px;
     font-family: "Poppins";
+    justify-self: flex-end;
     cursor: pointer;
     margin: 10px auto;
     border-radius: 20px;
@@ -54,37 +55,53 @@ const Button = styled.button`
     transition: all 140ms ease-in-out;
     &:hover {
         transform: scale(1.14);
-        background-color: #3a015c;
+        background-color: #7a0050;
         color: #fff;
     }
 `
 
-function handleInput (e) {
-    console.log(e.target.value, e.target.name)
-}
-export class ToDoForm extends Component {
-    constructor() {
-        super()
-        this.state = {
-            
-        }
-    }
 
+export class ToDoForm extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            title: "",
+            responsible: "",
+            description: "",
+            priority: "low"
+        };
+        this.handleInput = this.handleInput.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    handleInput(e){
+        const { value, name } = e.target
+        this.setState({
+            [name]: value
+        })
+    }
+    
+    handleSubmit (e){
+        e.preventDefault()
+        this.props.onAddTodo(this.state)
+        console.log(this.state)
+    }
     render() {
         return (
             <CreateTaskContainer>
                 <Header>Create a new task </Header>
-                <form>
+                <form onSubmit ={this.handleSubmit}>
                     <CreateTaskBody>
-                        Name <Input type = "text" placeholder = "Task Name" name= "taskName" onChange = {handleInput}/>
-                        Responsible <Input type = "text" placeholder = "Responsible" name = "taskResponsible" onChange = {handleInput}/>
-                        Description <Input type = "text" placeholder = "Description" name = "taskDescription" onChange = {handleInput}/>
-                        Priority <Select name = "priority" onChange = {handleInput}> 
+                        Name <Input type = "text" placeholder = "Task Name" name= "title" onChange = {this.handleInput}/>
+                        Responsible <Input type = "text" placeholder = "Responsible" name = "responsible" onChange = {this.handleInput}/>
+                        Description <Input type = "text" placeholder = "Description" name = "description" onChange = {this.handleInput}/>
+                        Priority <Select name = "priority" onChange = {this.handleInput}> 
                             <option>Low</option>
                             <option>Medium</option>
                             <option>High</option>
                         </Select>
-                        <Button type = "button">Add</Button>
+                        <Button type = "submit">Add</Button>
                     </CreateTaskBody>
                 </form>
                 
