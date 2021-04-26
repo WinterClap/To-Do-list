@@ -1,24 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
+import { AppContainer } from './AppContainer';
+import styled from "styled-components"; 
+import { ToDoForm } from './Components/ToDoForm/TodoForm';
+
+const Container = styled.div`
+background-color: #11001c;
+width: 100%;
+height: 100vh;
+`
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+return (
+<AppContainer>
+<ToDoForm />
+</AppContainer>
   );
 }
 
